@@ -1,0 +1,16 @@
+services:
+  db:
+    image: 'postgres:17.0-alpine'
+    container_name: project-pineapple-db
+    volumes:
+      - ./container_data/postgres:/var/lib/postgresql
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_USER=root
+      - POSTGRES_PASSWORD=root
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -d project-pineapple -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
