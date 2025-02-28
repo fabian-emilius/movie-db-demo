@@ -1,6 +1,23 @@
+.movie-card-container {
+  display: flex;
+  gap: 1.5rem;
+}
+
+.movie-rating {
+  display: flex;
+  align-items: center;
+  margin-bottom: 0.75rem;
+}
+
 @media (max-width: 780px) {
     .movie-card-container,
     .movies-container {
         display: grid;
+        gap: 1rem;
+    }
+    
+    .movie-card-container img {
+        max-width: 100%;
+        margin-bottom: 1rem;
     }
 }

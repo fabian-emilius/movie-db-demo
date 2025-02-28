@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-import type { ApiMovieData, LoginData, UserData } from './interfaces'
+import type { ApiMovieData, LoginData, ReviewSubmission, UserData } from './interfaces'
 
 export const CLIENT_URL = 'http://localhost:3303'
 export const DB_API_URL = 'https://api.themoviedb.org/3'
@@ -76,6 +76,43 @@ export async function getDbMovieById(id: number) {
   const res = await axios.get(`${DB_API_URL}/movie/${id}`, {
     params: {
       api_key: process.env.REACT_APP_DB_API_KEY,
+    },
+  })
+  return res.data
+}
+
+// New review API functions
+export async function getMovieReviews(movieId: number) {
+  const res = await axios.get(`${CLIENT_URL}/movies/${movieId}/reviews`, {
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
+    },
+  })
+  return res.data
+}
+
+export async function createMovieReview(movieId: number, data: ReviewSubmission) {
+  const res = await axios.post(`${CLIENT_URL}/movies/${movieId}/reviews`, data, {
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
+    },
+  })
+  return res.data
+}
+
+export async function updateMovieReview(movieId: number, reviewId: number, data: ReviewSubmission) {
+  const res = await axios.patch(`${CLIENT_URL}/movies/${movieId}/reviews/${reviewId}`, data, {
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
+    },
+  })
+  return res.data
+}
+
+export async function deleteMovieReview(movieId: number, reviewId: number) {
+  const res = await axios.delete(`${CLIENT_URL}/movies/${movieId}/reviews/${reviewId}`, {
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
     },
   })
   return res.data

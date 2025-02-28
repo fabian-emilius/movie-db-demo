@@ -2,6 +2,7 @@ import type { Params } from 'react-router-dom'
 import { Link, useLoaderData, useLocation } from 'react-router-dom'
 
 import { DB_API_IMG, getDbMovieById } from '../../api'
+import StarRating from '../../components/StarRating'
 import noImage from '../../img/no_image.png'
 import type { DbMovieCardLoaderData } from '../../interfaces'
 import { requireAuth } from '../../utils'
@@ -32,6 +33,9 @@ export default function DbMovieCard() {
   }
 
   const imgSrc = poster_path ? DB_API_IMG + poster_path : noImage
+  // TMDB movies have vote_average field which is on a 0-10 scale
+  // We convert it to our 1-5 scale for consistency
+  const averageRating = movie.vote_average ? movie.vote_average / 2 : undefined
 
   return (
     <div className='flow container'>
@@ -55,6 +59,12 @@ export default function DbMovieCard() {
         <img className='width-300' src={imgSrc} alt='movie' />
         <div className='grid'>
           <h2>{title}</h2>
+          {averageRating ? (
+            <div className="movie-rating">
+              <StarRating initialRating={averageRating} readonly size="small" />
+              <span className="rating-text">({averageRating.toFixed(1)})</span>
+            </div>
+          ) : null}
           <h3>
             <span className='ff-sans-normal '>Genre: </span>
             {genre}

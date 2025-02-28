@@ -36,6 +36,7 @@ export interface ApiMovieData {
 
 export interface MovieData extends ApiMovieData {
   id: number
+  averageRating?: number
 }
 
 export interface LoginResponse {
@@ -57,4 +58,19 @@ export interface DbMovieCardLoaderData {
   genres: {
     name: string
   }[]
+}
+
+export interface Review {
+  id: number
+  rating: number
+  comment?: string
+  createdAt: string
+  updatedAt: string
+  userId: number
+  movieId: number
+}
+
+export interface ReviewSubmission {
+  rating: number
+  comment?: string
 }
