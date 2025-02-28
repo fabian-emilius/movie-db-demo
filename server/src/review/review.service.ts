@@ -90,28 +90,15 @@ export class ReviewService {
       throw new NotFoundException('Movie not found')
     }
 
-    // Check if user already has a review for this movie
-    const existingReview = await this.prisma.review.findFirst({
-      where: {
-        userId,
-        movieId,
-      },
-    })
-
-    if (existingReview) {
-      throw new ForbiddenException('User already has a review for this movie')
-    }
-
-    // Create new review
+    // Create new review (and let the unique constraint handle duplicates)
     try {
-      const review = await this.prisma.review.create({
+      return await this.prisma.review.create({
         data: {
           ...dto,
           userId,
           movieId,
         },
       })
-      return review
     } catch (error) {
       if (error.code === 'P2002') { // Prisma unique constraint violation
         throw new ForbiddenException('User already has a review for this movie')
