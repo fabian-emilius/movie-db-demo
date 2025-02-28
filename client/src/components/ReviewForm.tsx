@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Form, useNavigate, useParams } from 'react-router-dom'
+import { Form, useParams } from 'react-router-dom'
 
 import { createMovieReview } from '../api'
 import type { ReviewSubmission, ServerErrorResponse } from '../interfaces'
@@ -20,7 +20,6 @@ interface ReviewFormProps {
 export default function ReviewForm({ onSuccess, onCancel }: ReviewFormProps) {
   const { id } = useParams()
   const movieId = parseInt(id || '0')
-  const navigate = useNavigate()
   
   // Form state
   const [rating, setRating] = useState(0)
